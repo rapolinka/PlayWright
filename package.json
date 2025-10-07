@@ -1,0 +1,23 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapolinka/PlayWright.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rapolinka/PlayWright/issues"
+  },
+  "homepage": "https://github.com/rapolinka/PlayWright#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.0"
+  }
+}
