@@ -1,3 +1,12 @@
+  // Разработайте смоук тест-сьют с тестами на REGISTER на странице https://anatoly-karpovich.github.io/demo-login-form/
+
+  // Требования:
+  //   Страница регистрации:
+  //     Username: обязательное, от 3 до 40 символов включительно, запрещены префиксные/постфиксные пробелы, как и имя состоящее из одних пробелов
+  //     Password: обязательное, от 8 до 20 символов включительно, необходима хотя бы одна буква в верхнем и нижнем регистрах, пароль из одних пробелов запрещен
+  //   Страница логина:
+  //     Username: обязательное
+  //     Password: обязательное
 import { test, expect } from "@playwright/test";
 
 interface ICredentials {
@@ -44,7 +53,7 @@ test.describe("[Demo-login-form][Registration form]", () => {
     await expect(notification).toHaveText(NOTIFICATIONS.REGISTRATION_SUCCESS);
   });
 
-  test("User registation: valid username and empty password", async ({
+  test("User registration: valid username and empty password", async ({
     page,
   }) => {
     const registerLink = page.locator("#registerOnLogin");
@@ -61,7 +70,7 @@ test.describe("[Demo-login-form][Registration form]", () => {
   });
 
   
-  test("User registation: empty username and valid password", async ({
+  test("User registration: empty username and valid password", async ({
     page,
   }) => {
     const registerLink = page.locator("#registerOnLogin");
