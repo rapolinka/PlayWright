@@ -58,11 +58,22 @@ test.describe("[Demo-registration-form][Detailed registration form]", () => {
     const skillsForm = page.locator("#skills");
     const yearOfBirthDropdown = page.locator("#year");
     const monthOfBirthDropdown = page.locator("#month");
+    const {day, month, year} = validCredentials.dateOfBirth;
     const dayOfBirthDropdown = page.locator("#day");
     const passwordInput = page.locator("#password");
     const passwordConfirmationInput = page.locator("#password-confirm");
     const submitButton = page.locator('button[type="submit"]');
     const fullNameConfirmation = page.locator("#fullName");
+    const adressConfirmation = page.locator("#address");
+    const emailConfirmation = page.locator("#email");
+    const phoneConfirmation = page.locator("#phone");
+    const countryConfirmation = page.locator("#country");
+    const genderConfirmation = page.locator("#gender");
+    const languageConfirmation = page.locator("#language");
+    const skillsConfirmation = page.locator("#skills");
+    const hobbiesConfirmation = page.locator("#hobbies");
+    const dayOfBirtConfirmation = page.locator("#dateOfBirth");
+    const passwordConfirmatiom = page.locator("#password");
 
     await fistNameInput.fill(validCredentials.firstname);
     await lastNameInput.fill(validCredentials.lastname);
@@ -90,7 +101,16 @@ test.describe("[Demo-registration-form][Detailed registration form]", () => {
     await submitButton.click();
 
     await expect(fullNameConfirmation).toContainText(
-      `${validCredentials.firstname} ${validCredentials.lastname}`
-    );
+      `${validCredentials.firstname} ${validCredentials.lastname}`);
+    await expect(adressConfirmation).toHaveText(validCredentials.address);
+    await expect(emailConfirmation).toHaveText(validCredentials.email);
+    await expect(phoneConfirmation).toHaveText(validCredentials.phone);
+    await expect(countryConfirmation).toHaveText(validCredentials.country);
+    await expect(genderConfirmation).toHaveText(validCredentials.gender);
+    await expect(languageConfirmation).toHaveText(validCredentials.language);
+    await expect(skillsConfirmation).toHaveText(validCredentials.skills.join(", "));
+    await expect(hobbiesConfirmation).toHaveText(validCredentials.hobbies.join(", "));
+    await expect(dayOfBirtConfirmation).toHaveText(`${day} ${month} ${year}`);
+    await expect(passwordConfirmatiom).toHaveText(/^\*+$/);
   });
 });
