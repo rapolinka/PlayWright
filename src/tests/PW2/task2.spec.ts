@@ -8,36 +8,62 @@
 //   - Для доступа к localStorage используйте https://playwright.dev/docs/evaluating
 
 import { test, expect } from "@playwright/test";
+interface IUSer {
+  username: string;
+  password: string;
+}
 
-enum NOTIFIVATIONS {
+const user: IUSer = {
+  username: "test@gmail.com",
+  password: "SecretPw123!@#",
+};
+
+enum STORAGE_KEYS {
+  USERNAME = "Username",
+  PASSWORD = "Password",
+}
+
+enum NOTIFICATIONS {
   LOGIN_SUCCESS = "Logged in!",
 }
-const url = "https://anatoly-karpovich.github.io/demo-login-form/";
 
+const url = "https://anatoly-karpovich.github.io/demo-login-form/";
 
 test("set localStorage data", async ({ page }) => {
   await page.goto(url);
-  await page.evaluate(() => {
-    localStorage.setItem("Username", "test@gmail.com");
-    localStorage.setItem("Password", "SecretPw123!@#");
-  });
+  await page.evaluate(
+    ({ STORAGE_KEYS, user }) => {
+      localStorage.setItem(STORAGE_KEYS.USERNAME, user.username);
+      localStorage.setItem(STORAGE_KEYS.PASSWORD, user.password);
+    },
+    {
+      STORAGE_KEYS,
+      user,
+    }
+  );
 
-  await page.reload();
 
-  const userName = await page.evaluate(() => localStorage.getItem("Username"));
-  expect(userName).toBe("test@gmail.com");
- 
-  const password = await page.evaluate(() => localStorage.getItem("Password"));
-  expect(password).toBe("SecretPw123!@#");
+  const userName = await page.evaluate(
+    (key) => localStorage.getItem(key),
+    STORAGE_KEYS.USERNAME
+  );
+
+  const password = await page.evaluate(
+    (key) => localStorage.getItem(key),
+    STORAGE_KEYS.PASSWORD
+  );
+
+  expect(userName).toBe(user.username);
+  expect(password).toBe(user.password);
 
   const usernameInput = page.locator("#userName");
   const passwordInput = page.locator("#password");
-  const submitButton = page.locator("#submit")
+  const submitButton = page.locator("#submit");
   const loginMessage = page.locator("#successMessage");
 
   await usernameInput.fill(userName!);
   await passwordInput.fill(password!);
   await page.locator("#submit").click();
 
-  await expect(loginMessage).toHaveText(NOTIFIVATIONS.LOGIN_SUCCESS);
+  await expect(loginMessage).toHaveText(NOTIFICATIONS.LOGIN_SUCCESS);
 });
