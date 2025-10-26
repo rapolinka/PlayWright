@@ -21,9 +21,11 @@
   "homepage": "https://github.com/rapolinka/PlayWright#readme",
   "devDependencies": {
     "@playwright/test": "^1.56.0",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^24.7.0"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.1.0"
+    "@faker-js/faker": "^10.1.0",
+    "lodash": "^4.17.21"
   }
 }
