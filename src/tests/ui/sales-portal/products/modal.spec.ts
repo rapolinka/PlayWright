@@ -1,21 +1,28 @@
-import {test, expect} from "fixtures/pages.fixture";
+import { test, expect } from "fixtures/pages.fixture";
 import { credentials } from "config/env";
 import { generateProductData } from "data/salesPortal/generateProductData";
 import _ from "lodash";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 
-test.describe("[E2E][Sales Portal][Products]", async () => {
-  test.beforeEach("Login with valid credentials", async ({ page, loginPage }) => {
-    await loginPage.open();
-    await loginPage.waitForElementToBeDisplyed();
-    await loginPage.fillCredentials(credentials);
-    await loginPage.clickLogin();
-  });
 
-  test("Newly added product is shown at the top of Products List with correct data", async ({
-    page,homePage, productsListPage, addNewProduct
+test.describe("[E2E][Sales Portal][Products]", async () => {
+  test.beforeEach(
+    "Login with valid credentials",
+    async ({ page, loginPage }) => {
+      await loginPage.open();
+      await loginPage.waitForElementToBeDisplyed();
+      await loginPage.fillCredentials(credentials);
+      await loginPage.clickLogin();
+    }
+  );
+
+  test("Delete product via modal and verify it’s removed from the table", async ({
+    page,
+    homePage,
+    productsListPage,
+    addNewProduct,
+    productDeleteModal,
   }) => {
-    
     await homePage.waitForOpened();
     await homePage.clickOnViewModel("Products");
     await productsListPage.waitForOpened();
@@ -27,7 +34,6 @@ test.describe("[E2E][Sales Portal][Products]", async () => {
     await addNewProduct.waitForOpened();
 
     await productsListPage.waitForNotification(NOTIFICATIONS.PRODUCT_CREATED);
-    
     await expect(
       productsListPage.tableRowByName(productData.name)
     ).toBeVisible();
@@ -42,5 +48,12 @@ test.describe("[E2E][Sales Portal][Products]", async () => {
     const expectedProduct = _.omit(productData, ["notes", "amount"]);
     const actualProduct = _.omit(productFromTable, ["createdOn"]);
     expect(actualProduct).toEqual(expectedProduct);
+
+    await productsListPage.clickDeleteProduct(productData.name);
+    await productDeleteModal.waitForOpened();
+    await productDeleteModal.delete();
+    await productDeleteModal.waitForClosed();
+    await productsListPage.waitForNotification(NOTIFICATIONS.PRODUCT_DELETED);
+    await productsListPage.expectProductDeleted(productData.name);
   });
 });
