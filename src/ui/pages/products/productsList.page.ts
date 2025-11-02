@@ -1,6 +1,8 @@
 import { IProductInTable } from "data/types/product.types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { MANUFACTURERS } from "data/salesPortal/products/manufactures";
+import { NOTIFICATIONS } from "data/salesPortal/notifications";
+import { expect } from "@playwright/test";
 
 export class ProductsListPage extends SalesPortalPage {
   readonly productsPageTitle = this.page.locator("h2.fw-bold");
@@ -26,16 +28,20 @@ export class ProductsListPage extends SalesPortalPage {
     this.tableRowByName(productName).locator("td").nth(3);
 
   readonly editButton = (productName: string) =>
-    this.tableRowByName(productName).getByText("Edit");
-  readonly deteilsButton = (productName: string) =>
-    this.tableRowByName(productName).getByText("Details");
+    this.tableRowByName(productName).getByTitle("Edit");
+  readonly detailsButton = (productName: string) =>
+    this.tableRowByName(productName).getByTitle("Details");
   readonly deleteButton = (productName: string) =>
-    this.tableRowByName(productName).getByText("Delete");
+    this.tableRowByName(productName).getByTitle("Delete");
 
   readonly uniqueElement = this.addProductButton;
 
+  //BUTTONS
   async clickAddNewProduct() {
     await this.addProductButton.click();
+  }
+  async clickDeleteProduct(productName: string) {
+    await this.deleteButton(productName).click();
   }
 
   async getProductData(productName: string): Promise<IProductInTable> {
@@ -50,5 +56,10 @@ export class ProductsListPage extends SalesPortalPage {
       manufacturer: manufacturer! as MANUFACTURERS,
       createdOn: createdOn!,
     };
+  }
+
+  async expectProductDeleted(productName: string) {
+    const row = this.tableRowByName(productName);
+    await expect(row).toHaveCount(0);
   }
 }
