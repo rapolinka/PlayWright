@@ -6,3 +6,4 @@ export const obligatoryFiledsSchema = {
 };
 
 export const obligatoryRequiredfileds = ["IsSuccess", "ErrorMessage"];
+
