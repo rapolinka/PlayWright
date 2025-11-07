@@ -42,10 +42,11 @@ export interface ICreatePositiveCase {
 export interface ICreateNegativeCase {
   title: string;
   input: {
-    name?: string | null;
-    manufacturer?: MANUFACTURERS;
-    price?: number | string | null;
-    amount?: number | string | null;
-    notes?: string | null;
+    name: string | number ;
+    manufacturer: MANUFACTURERS;
+    price: number | string ;
+    amount: number | string;
+    notes?: string | number ;
   };
 }
+
