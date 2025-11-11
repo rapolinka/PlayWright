@@ -5,7 +5,7 @@ import { AddNewProduct } from "ui/pages/products/addNewProduct.page";
 import { ProductDeleteModal } from "ui/pages/products/delete.modals";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
 
-interface IPages {
+export interface IPages {
   loginPage: LoginPage;
   homePage: HomePage;
   productsListPage: ProductsListPage;
