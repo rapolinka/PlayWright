@@ -1,7 +1,7 @@
-import { expect } from "@playwright/test";
 import { SalesPortalPage } from "../salesPortal.page";
 import { ICredentials } from "data/types/credentils.types";
 import { credentials } from "config/env";
+
 
 export class LoginPage extends SalesPortalPage {
   readonly emailInput = this.page.locator("#emailinput");
@@ -9,9 +9,6 @@ export class LoginPage extends SalesPortalPage {
   readonly submitButton = this.page.locator("button[type= 'submit']");
   readonly uniqueElement = this.emailInput;
 
-  async waitForLogin() {
-    await expect(this.uniqueElement).toBeVisible();
-  }
 
   async fillCredentials({ username, password }: Partial<ICredentials>) {
     if (username) await this.emailInput.fill(credentials.username);

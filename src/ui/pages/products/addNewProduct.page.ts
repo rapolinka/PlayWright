@@ -1,4 +1,3 @@
-import { Locator } from "@playwright/test";
 import { SalesPortalPage } from "../salesPortal.page";
 import { IProduct } from "data/types/product.types";
 
