@@ -1,7 +1,7 @@
-import { test, expect } from "fixtures/api.fixture";
 import { validateResponse } from "utils/validateResponse.utils";
 import { STATUS_CODES } from "data/statusCodes";
 import { IProductFromResponse } from "data/types/product.types";
+import { test, expect } from "fixtures/api.fixture";
 
 // const { baseUrl, endpoints } = apiConfig;
 

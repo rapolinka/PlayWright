@@ -1,12 +1,19 @@
 import { Page } from "@playwright/test";
 import { apiConfig } from "config/apiConfig";
 import { STATUS_CODES } from "data/statusCodes";
-import { IProductResponse, IProductsSortedResponse } from "data/types/product.types";
+import { IMetricFromResponse } from "data/types/homeMetric.types";
+import {
+  IProductResponse,
+  IProductsSortedResponse,
+} from "data/types/product.types";
 
 export class Mock {
   constructor(private page: Page) {}
 
-  async productspage(body: IProductsSortedResponse, statusCode: STATUS_CODES = STATUS_CODES.OK) {
+  async productspage(
+    body: IProductsSortedResponse,
+    statusCode: STATUS_CODES = STATUS_CODES.OK
+  ) {
     this.page.route(/\/api\/products(\/?.*)?$/, async (route) => {
       await route.fulfill({
         status: statusCode,
@@ -16,13 +23,35 @@ export class Mock {
     });
   }
 
-  async productsDetailModal(body: IProductResponse, statusCode: STATUS_CODES = STATUS_CODES.OK) {
-    this.page.route(apiConfig.baseUrl + apiConfig.endpoints.productById(body.Product._id), async (route) => {
-      await route.fulfill({
-        status: statusCode,
-        contentType: "application/json",
-        body: JSON.stringify(body),
-      });
-    });
+  async productsDetailModal(
+    body: IProductResponse,
+    statusCode: STATUS_CODES = STATUS_CODES.OK
+  ) {
+    this.page.route(
+      apiConfig.baseUrl + apiConfig.endpoints.productById(body.Product._id),
+      async (route) => {
+        await route.fulfill({
+          status: statusCode,
+          contentType: "application/json",
+          body: JSON.stringify(body),
+        });
+      }
+    );
+  }
+
+  async homePageMetrics(
+    body: IMetricFromResponse,
+    statusCode: STATUS_CODES = STATUS_CODES.OK
+  ) {
+    this.page.route(
+      apiConfig.baseUrl + apiConfig.endpoints.metrics,
+      async (route) => {
+        await route.fulfill({
+          status: statusCode,
+          contentType: "application/json",
+          body: JSON.stringify(body),
+        });
+      }
+    );
   }
 }

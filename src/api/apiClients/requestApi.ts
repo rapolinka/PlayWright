@@ -42,4 +42,4 @@ export class RequestApi extends BaseApiClient {
     };
   }
 }
-// в ответе должны получть headrs, body and status
+

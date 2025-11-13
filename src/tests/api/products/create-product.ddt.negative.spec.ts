@@ -1,9 +1,11 @@
 import { onligatoryFieldsSchema } from "data/schemas/products/product.schema";
-import { test, expect } from "fixtures/api.fixture";
+import { test, expect } from "fixtures";
 import { validateResponse } from "utils/validateResponse.utils";
 import { STATUS_CODES } from "data/statusCodes";
-import { NEGATIVE_CREATE_CASES } from "data/salesPortal/products/createProduct.data";
-import {  IProduct } from "data/types/product.types";
+
+import { NEGATIVE_CREATE_CASES } from "data/salesPortal/create.Product.data";
+import { IProduct } from "data/types/product.types";
+
 
 
 test.describe("[API][Products][Create Product with DDT - Negative Tests]", () => {

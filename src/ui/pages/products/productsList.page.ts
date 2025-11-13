@@ -61,12 +61,28 @@ export class ProductsListPage extends SalesPortalPage {
     await this.deleteButton(productName).click();
   }
 
- async getTableData(): Promise<IProductInTable[]> {
+  async getProductData(productName: string): Promise<IProductInTable> {
+    const [name, price, manufacturer, createdOn] = await this.tableRowByName(
+      productName
+    )
+      .locator("td")
+      .allInnerTexts();
+    return {
+      name: name!,
+      price: +price!.replace("$", ""),
+      manufacturer: manufacturer! as MANUFACTURERS,
+      createdOn: createdOn!,
+    };
+  }
+
+  async getTableData(): Promise<IProductInTable[]> {
     const data: IProductInTable[] = [];
 
     const rows = await this.tableRow.all();
     for (const row of rows) {
-      const [name, price, manufacturer, createdOn] = await row.locator("td").allInnerTexts();
+      const [name, price, manufacturer, createdOn] = await row
+        .locator("td")
+        .allInnerTexts();
       data.push({
         name: name!,
         price: +price!.replace("$", ""),
@@ -76,7 +92,6 @@ export class ProductsListPage extends SalesPortalPage {
     }
     return data;
   }
-
 
   async expectProductDeleted(productName: string) {
     const row = this.tableRowByName(productName);

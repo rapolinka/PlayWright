@@ -1,6 +1,5 @@
 import { SALES_PORTAL_API_URL } from "./env";
 
-
 export const apiConfig = {
   baseUrl: SALES_PORTAL_API_URL,
   endpoints: {
@@ -9,6 +8,7 @@ export const apiConfig = {
     productDelete: (id: string) => `/api/products/${id}/`,
     productById: (id: string) => `/api/products/${id}/`,
     allProducts: "/api/products/all",
+    metrics: "/api/metrics"
   
   },
 };

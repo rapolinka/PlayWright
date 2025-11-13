@@ -1,5 +1,5 @@
 import {  ICreateNegativeCase, ICreatePositiveCase } from "data/types/product.types";
-import { MANUFACTURERS } from "./manufactures";
+import { MANUFACTURERS } from "./products/manufactures";
 
 
 export const POSITIVE_CREATE_CASES: ICreatePositiveCase [] = [
