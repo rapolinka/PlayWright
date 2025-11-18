@@ -1,7 +1,3 @@
-// import { APIResponse, expect } from "@playwright/test";
-// import { IResponse, IResponseFileds } from "data/types/core.types";
-// import { validateJsonSchema } from "./schema.utils";
-
 import { IResponseFileds, IResponse } from "data/types/core.types";
 import { expect } from "fixtures";
 import { validateJsonSchema } from "./schema.utils";

@@ -27,7 +27,7 @@ export class ProductDetailsModal extends ProductModal {
   async getData(): Promise<IProductDetails> {
     const [name, amount, price, manufacturer, createdOn, notes] = await this.productValue.allInnerTexts();
 
-    return {
+    return {  
       name: name!,
       amount: +amount!,
       price: +price!,

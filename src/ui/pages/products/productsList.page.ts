@@ -1,12 +1,13 @@
 import { IProductInTable, ProductsTableHeader } from "data/types/product.types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { MANUFACTURERS } from "data/salesPortal/products/manufactures";
-import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { expect } from "@playwright/test";
 import { ProductDetailsModal } from "./details.modal";
+import { ProductEditModal } from "./edit.modal";
 
 export class ProductsListPage extends SalesPortalPage {
   readonly detailsModal = new ProductDetailsModal(this.page);
+  readonly editModal = new ProductEditModal(this.page);
   readonly productsPageTitle = this.page.locator("h2.fw-bold");
   readonly addProductButton = this.page.locator('[name="add-button"]');
   readonly tableRow = this.page.locator("tbody tr");

@@ -1,34 +1,33 @@
-import { test, expect } from "fixtures/pages.fixture";
-import { credentials } from "config/env";
-import { generateProductData } from "data/salesPortal/generateProductData";
+import { test, expect } from "fixtures/business.fixture";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 
 test.describe("[E2E][Sales Portal][Products]", async () => {
-  test.beforeEach("Login with valid credentials", async ({ page, loginPage }) => {
-    await loginPage.open();
-    await loginPage.waitForElementToBeDisplyed();
-    await loginPage.fillCredentials(credentials);
-    await loginPage.clickLogin();
+  let id = "";
+  let token = "";
+
+  test.afterAll(async ({ productsApiService }) => {
+    if (id) await productsApiService.delete(token, id);
+    id = "";
   });
-
-  test("Add new product", async ({
-    page,homePage, productsListPage, addNewProduct
+  
+  test("Add new products with servises", async ({
+    loginUIServise,
+    homeUIServise,
+    productsListUIServise,
+    addNewProductUIServise,
+    productsListPage,
   }) => {
-    
-    await homePage.waitForOpened();
-    await homePage.clickOnViewModel("Products");
-    await productsListPage.waitForOpened();
-    await productsListPage.clickAddNewProduct();
-    await addNewProduct.waitForOpened();
-    const productData = generateProductData();
-    await addNewProduct.fillForm(productData);
-    await addNewProduct.clickSave();
-    await addNewProduct.waitForOpened();
+    token = await loginUIServise.loginAsAdmin();
+    await homeUIServise.openModuleButton("Products");
+    await productsListUIServise.openAddNewProductPage();
+    const createdProduct = await addNewProductUIServise.create();
+    id = createdProduct._id;
 
-    await productsListPage.waitForNotification(NOTIFICATIONS.PRODUCT_CREATED);
-    
+    await expect(productsListPage.toastMessage).toContainText(
+      NOTIFICATIONS.PRODUCT_CREATED
+    );
     await expect(
-      productsListPage.tableRowByName(productData.name)
+      productsListPage.tableRowByName(createdProduct.name)
     ).toBeVisible();
   });
 });

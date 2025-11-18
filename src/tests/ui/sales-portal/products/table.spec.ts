@@ -13,18 +13,18 @@ test.describe("[E2E][Sales Portal][Products]", async () => {
   });
 
   test("Newly added product is shown at the top of Products List with correct data", async ({
-    page,homePage, productsListPage, addNewProduct
+    page,homePage, productsListPage, addNewProductPage
   }) => {
     
     await homePage.waitForOpened();
     await homePage.clickOnViewModel("Products");
     await productsListPage.waitForOpened();
     await productsListPage.clickAddNewProduct();
-    await addNewProduct.waitForOpened();
+    await addNewProductPage.waitForOpened();
     const productData = generateProductData();
-    await addNewProduct.fillForm(productData);
-    await addNewProduct.clickSave();
-    await addNewProduct.waitForOpened();
+    await addNewProductPage.fillForm(productData);
+    await addNewProductPage.clickSave();
+    await addNewProductPage.waitForOpened();
 
     await productsListPage.waitForNotification(NOTIFICATIONS.PRODUCT_CREATED);
     

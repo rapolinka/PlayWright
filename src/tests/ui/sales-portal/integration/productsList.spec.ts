@@ -3,7 +3,6 @@ import _ from "lodash";
 import { SALES_PORTAL_URL } from "config/env";
 import { apiConfig } from "config/apiConfig";
 import {
-  generateProductData,
   generateProductResponseData,
 } from "data/salesPortal/generateProductData";
 import { Mock } from "mock/mock";
