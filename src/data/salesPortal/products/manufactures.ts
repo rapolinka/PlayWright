@@ -8,3 +8,14 @@ export enum MANUFACTURERS {
   AMAZON = "Amazon",
   TESLA = "Tesla",
 }
+
+export enum COUNTRY {
+  USE = "USA",
+  CANADA = "Canada",
+  BELARUS = "Belarus",
+  UKRAINE = "Ukraine",
+  GERMANY = "Germany",
+  FRANCE = "France",
+  GREAT_BRITAIN = "Great Britain",
+  RUSSIA = "Russia",
+}

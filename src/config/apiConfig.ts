@@ -8,7 +8,8 @@ export const apiConfig = {
     productDelete: (id: string) => `/api/products/${id}/`,
     productById: (id: string) => `/api/products/${id}/`,
     allProducts: "/api/products/all",
-    metrics: "/api/metrics"
-  
+    metrics: "/api/metrics",
+    customers: "/api/customers",
+    customerById: (id: string) => `/api/customers/${id}/`,
   },
 };

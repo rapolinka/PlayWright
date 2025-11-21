@@ -15,5 +15,8 @@ export class HomeUIServise {
     if(moduleName === "Products"){
         await this.productListPage.waitForOpened();
     }
+    if(moduleName === "Customers"){
+      await this.productListPage.waitForOpened();
+    }
   }
 }
