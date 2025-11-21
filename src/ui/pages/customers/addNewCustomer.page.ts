@@ -13,7 +13,7 @@ export class AddNewCustomerPage extends SalesPortalPage {
   readonly flatInput = this.page.locator("#inputFlat");
   readonly phoneInput = this.page.locator("#inputPhone");
   readonly notesInput = this.page.locator("#textareaNotes");
-  readonly saveButton = this.page.locator("#save-new-customer");
+  readonly saveButton = this.page.locator(`button[type="submit"]`);
 
   readonly uniqueElement = this.title;
 
@@ -23,9 +23,9 @@ export class AddNewCustomerPage extends SalesPortalPage {
     if (customerData.country)
       await this.countrySelector.selectOption(customerData.country);
     if (customerData.city) await this.cityInput.fill(customerData.city);
-    if (customerData.street) await this.cityInput.fill(customerData.street);
-    if (customerData.house) await this.houseInput.fill(customerData.house);
-    if (customerData.flat) await this.flatInput.fill(customerData.flat);
+    if (customerData.street) await this.streetInput.fill(customerData.street);
+    if (customerData.house) await this.houseInput.fill(customerData.house.toString());
+    if (customerData.flat) await this.flatInput.fill(customerData.flat.toString());
     if (customerData.phone) await this.phoneInput.fill(customerData.phone);
     if (customerData.notes) await this.notesInput.fill(customerData.notes!);
   }

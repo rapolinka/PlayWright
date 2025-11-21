@@ -8,8 +8,8 @@ export interface ICustomer {
   country: COUNTRY;
   city: string;
   street: string;
-  house: string;
-  flat: string;
+  house: number;
+  flat: number;
   phone: string;
   notes?: string;
 }
