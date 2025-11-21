@@ -2,7 +2,7 @@
 //   constructor(private productsApi: ProductsApi) {}
 
 import { generateCustomerData } from "data/salesPortal/customers/generateCustomerData";
-import { CustomerApi } from "../customers.api";
+
 import { ICustomer, ICustomerResponse } from "data/types/customer.types";
 import { IResponse, IResponseFileds } from "data/types/core.types";
 import { validateResponse } from "utils/validateResponse.utils";

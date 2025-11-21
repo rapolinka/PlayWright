@@ -1,6 +1,6 @@
 import { expect, Page } from "@playwright/test";
 import { apiConfig } from "config/apiConfig";
-import { generateProductData } from "data/salesPortal/generateProductData";
+import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { STATUS_CODES } from "data/statusCodes";
 import { IProduct, IProductResponse } from "data/types/product.types";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";

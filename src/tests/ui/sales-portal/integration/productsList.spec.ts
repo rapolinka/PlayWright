@@ -4,7 +4,7 @@ import { SALES_PORTAL_URL } from "config/env";
 import { apiConfig } from "config/apiConfig";
 import {
   generateProductResponseData,
-} from "data/salesPortal/generateProductData";
+} from "data/salesPortal/products/generateProductData";
 import { Mock } from "mock/mock";
 
 test.describe("[Integration] [Sales Portal] [Products]", () => {

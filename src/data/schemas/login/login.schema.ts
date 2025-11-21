@@ -1,7 +1,7 @@
 import {
   obligatoryFiledsSchema,
   obligatoryRequiredfileds,
-} from "./products/core.schema";
+} from "../core.schema";
 
 export const userSchema = {
   type: "object",

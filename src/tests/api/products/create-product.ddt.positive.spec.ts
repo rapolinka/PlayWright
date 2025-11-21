@@ -2,7 +2,7 @@ import { createProductSchema } from "data/schemas/products/product.schema";
 import { test, expect } from "fixtures";
 import { validateResponse } from "utils/validateResponse.utils";
 import { STATUS_CODES } from "data/statusCodes";
-import { POSITIVE_CREATE_CASES } from "data/salesPortal/create.Product.data";
+import { POSITIVE_CREATE_CASES } from "data/salesPortal/products/createProduct.ddt.data";
 
 // Используя DDT подход, напишите тест сьют для проверки эндпоинта создания продукта:
 //   - с позитивными проверками

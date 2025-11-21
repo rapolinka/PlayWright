@@ -1,6 +1,6 @@
-import { COUNTRY } from "data/salesPortal/products/manufactures";
 import { ICreatedOn } from "./product.types";
 import { ID, IResponseFileds } from "./core.types";
+import { COUNTRY } from "data/salesPortal/customers/counties";
 
 export interface ICustomer {
   email: string;

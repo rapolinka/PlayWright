@@ -1,5 +1,5 @@
 import { SALES_PORTAL_URL } from "config/env";
-import { POSITIVE_CREATE_CASES_HOME_METRICS } from "data/salesPortal/home/ddt.HomeMetricData";
+import { POSITIVE_CREATE_CASES_HOME_METRICS } from "data/salesPortal/home/homeMetrics.ddt.data";
 import { generateHomeMetricData } from "data/salesPortal/home/generateHomeMetrcicData";
 import { test, expect } from "fixtures/business.fixture";
 import { formatCurrency } from "utils/formating.utils";

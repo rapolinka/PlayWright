@@ -2,7 +2,7 @@ import { test, expect } from "fixtures/business.fixture";
 import _ from "lodash";
 import { SALES_PORTAL_URL } from "config/env";
 import { apiConfig } from "config/apiConfig";
-import { generateProductData, generateProductResponseData } from "data/salesPortal/generateProductData";
+import { generateProductData, generateProductResponseData } from "data/salesPortal/products/generateProductData";
 import { Mock } from "mock/mock";
 
 test.describe("[Integration] [Sales Portal] [Products]", () => {

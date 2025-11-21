@@ -1,7 +1,8 @@
 import { ICustomer } from "data/types/customer.types";
 import { faker } from "@faker-js/faker";
-import { COUNTRY } from "../products/manufactures";
+
 import { getRandomEnumValue } from "utils/enum.utils";
+import { COUNTRY } from "./counties";
 
   export function generateCustomerData(params?: Partial<ICustomer>): ICustomer {
   return {

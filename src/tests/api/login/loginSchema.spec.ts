@@ -1,6 +1,6 @@
 import { apiConfig } from "config/apiConfig";
 import { credentials } from "config/env";
-import { loginSchema } from "data/schemas/login.schema";
+import { loginSchema } from "data/schemas/login/login.schema";
 import { validateResponse } from "utils/validateResponse.utils";
 import { test, expect } from "fixtures/api.fixture";
 const { baseUrl, endpoints } = apiConfig;

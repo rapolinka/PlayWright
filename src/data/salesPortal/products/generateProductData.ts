@@ -1,5 +1,5 @@
 import { IProduct, IProductFromResponse } from "data/types/product.types";
-import { MANUFACTURERS } from "./products/manufactures";
+import { MANUFACTURERS } from "./manufactures";
 import { faker } from "@faker-js/faker";
 import { getRandomEnumValue } from "utils/enum.utils";
 import { ObjectId } from "bson";

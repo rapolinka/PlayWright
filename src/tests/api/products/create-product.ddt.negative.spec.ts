@@ -3,7 +3,7 @@ import { test, expect } from "fixtures";
 import { validateResponse } from "utils/validateResponse.utils";
 import { STATUS_CODES } from "data/statusCodes";
 
-import { NEGATIVE_CREATE_CASES } from "data/salesPortal/create.Product.data";
+import { NEGATIVE_CREATE_CASES } from "data/salesPortal/products/createProduct.ddt.data";
 import { IProduct } from "data/types/product.types";
 
 

@@ -1,9 +1,10 @@
-import { generateProductData } from "data/salesPortal/generateProductData";
+import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { createProductSchema } from "data/schemas/products/product.schema";
 import { IProduct } from "data/types/product.types";
 import { STATUS_CODES } from "data/statusCodes";
 import { validateResponse } from "utils/validateResponse.utils";
-import { ProductsApi } from "../products.api";
+import { ProductsApi } from "api/api/products.api";
+
 
 export class ProductsApiService {
   constructor(private productsApi: ProductsApi) {}

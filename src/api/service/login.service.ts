@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import { LoginApi } from "api/apiClients/login.api";
 import { credentials } from "config/env";
-import { loginSchema } from "data/schemas/login.schema";
+import { loginSchema } from "data/schemas/login/login.schema";
 import { ICredentials } from "data/types/credentils.types";
 import { validateResponse } from "utils/validateResponse.utils";
 

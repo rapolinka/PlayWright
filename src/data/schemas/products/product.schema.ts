@@ -2,7 +2,7 @@ import { MANUFACTURERS } from "data/salesPortal/products/manufactures";
 import {
   obligatoryFiledsSchema,
   obligatoryRequiredfileds,
-} from "./core.schema";
+} from "../core.schema";
 
 export const productSchema = {
   type: "object",

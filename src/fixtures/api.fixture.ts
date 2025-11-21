@@ -2,9 +2,9 @@ import { test as base, expect } from "@playwright/test";
 import { LoginApi } from "api/apiClients/login.api";
 import { RequestApi } from "api/apiClients/requestApi";
 import { ProductsApi } from "api/api/products.api";
-import { ProductsApiService } from "api/api/service/product.service";
-import { LoginService } from "api/api/service/login.service";
 import { CustomerApi } from "api/api/customers.api";
+import { ProductsApiService } from "api/service/product.service";
+import { LoginService } from "api/service/login.service";
 
 export interface IApi {
   //   api

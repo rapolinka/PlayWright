@@ -1,6 +1,6 @@
 import { test, expect } from "fixtures/pages.fixture";
 import { credentials } from "config/env";
-import { generateProductData } from "data/salesPortal/generateProductData";
+import { generateProductData } from "data/salesPortal/products/generateProductData";
 import _ from "lodash";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 
