@@ -1,8 +1,7 @@
-import { Locator } from "@playwright/test";
 import { SalesPortalPage } from "../salesPortal.page";
 import { IProduct } from "data/types/product.types";
 
-export class AddNewProduct extends SalesPortalPage {
+export class AddNewProductPage extends SalesPortalPage {
   readonly title = this.page.locator("h2.page-title-text");
   readonly nameInput = this.page.locator("#inputName");
   readonly priceInput = this.page.locator("#inputPrice");
