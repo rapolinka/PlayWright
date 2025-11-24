@@ -6,7 +6,7 @@ import { COUNTRY } from "./counties";
 
   export function generateCustomerData(params?: Partial<ICustomer>): ICustomer {
   return {
-    email: `test+${Date.now()}@gmail.com`,
+    email: `test${Date.now()}@gmail.com`,
     name: faker.person.firstName() + " " + faker.person.lastName(),
     country: getRandomEnumValue(COUNTRY),
     city: faker.location.city(),

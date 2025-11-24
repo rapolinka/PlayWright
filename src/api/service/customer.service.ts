@@ -7,9 +7,10 @@ import { ICustomer, ICustomerResponse } from "data/types/customer.types";
 import { IResponse, IResponseFileds } from "data/types/core.types";
 import { validateResponse } from "utils/validateResponse.utils";
 import { STATUS_CODES } from "data/statusCodes";
+import { CustomerApi } from "api/api/customers.api";
 
 export class CustomerApiServise {
-  // constructor(private customerApi: CustomerApi) {}
+  constructor(private customerApi: CustomerApi) {}
 
   // async create(token: string, productData?: ICustomer) {
   //   const data = generateCustomerData(productData);
@@ -23,10 +24,10 @@ export class CustomerApiServise {
   //   return response.body.Customer;
   // }
 
-  // async delete(token: string, id: string) {
-  //   const response = await this.customerApi.delete(id, token);
-  //   validateResponse(response, {
-  //     status: STATUS_CODES.DELETED,
-  //   });
-  // }
+  async delete(token: string, id: string) {
+    const response = await this.customerApi.delete(id, token);
+    validateResponse(response, {
+      status: STATUS_CODES.DELETED,
+    });
+  }
 }
