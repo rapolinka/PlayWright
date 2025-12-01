@@ -1,8 +1,12 @@
+
+import { POSITIVE_CREATE_CASES } from "data/salesPortal/products/createProduct.ddt.data";
 import { createProductSchema } from "data/schemas/products/product.schema";
+import { STATUS_CODES } from "data/statusCodes";
+import { TAGS } from "data/tags";
 import { test, expect } from "fixtures";
 import { validateResponse } from "utils/validateResponse.utils";
-import { STATUS_CODES } from "data/statusCodes";
-import { POSITIVE_CREATE_CASES } from "data/salesPortal/products/createProduct.ddt.data";
+
+
 
 // Используя DDT подход, напишите тест сьют для проверки эндпоинта создания продукта:
 //   - с позитивными проверками
@@ -25,7 +29,10 @@ test.describe("[API][Products][Create Product with DDT - Positive Tests]", () =>
   });
 
   for (const tc of POSITIVE_CREATE_CASES) {
-    test(tc.title, async ({ loginApiService, productsApi }) => {
+    test(tc.title, 
+      {
+        tag: [TAGS.REGRESSION, TAGS.API]
+      }, async ({ loginApiService, productsApi }) => {
       token = await loginApiService.loginAsAdmin();
 
       const productData = tc.input;
@@ -49,8 +56,8 @@ test.describe("[API][Products][Create Product with DDT - Positive Tests]", () =>
         expect(p.notes ?? "").toBe(productData.notes);
       }
 
-      expect(createdProduct.body.IsSuccess).toBe(true);
-      expect(createdProduct.body.ErrorMessage).toBeNull();
+      expect(createdProduct.body.IsSuccess, "Expected IsSuccess to be true").toBe(true);
+      expect(createdProduct.body.ErrorMessage, "Expected not to  receive message for ErrorMessage").toBeNull();
     });
   }
 });

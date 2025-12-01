@@ -1,4 +1,5 @@
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
+import { TAGS } from "data/tags";
 import { test, expect } from "fixtures/business.fixture";
 import _ from "lodash";
 import { convertToFullDateAndTime } from "utils/date.utils";
@@ -23,8 +24,10 @@ test.describe("[E2E] Products", async () => {
     id = "";
   });
 
-  test("Verify that the product can be edit and the information accordingly updated", async ({
-    loginUIServise,
+  test("Verify that the product can be edit and the information accordingly updated",
+    {
+      tag: [TAGS.REGRESSION, TAGS.SMOKE, TAGS.UI]
+    }, async ({
     productsApiService,
     homeUIServise,
     productsListUIServise,
@@ -32,7 +35,9 @@ test.describe("[E2E] Products", async () => {
     detailsProductUIServise,
     productsListPage,
   }) => {
-    token = await loginUIServise.loginAsAdmin();
+    token = await productsListPage.getAuthToken();
+    await homeUIServise.open();
+    // token = await loginUIServise.loginAsAdmin();
     const createdProduct = await productsApiService.create(token);
     id = createdProduct._id;
     await homeUIServise.openModuleButton("Products");
@@ -54,7 +59,7 @@ test.describe("[E2E] Products", async () => {
     await productsListUIServise.openDetailsModal(updatedProduct.name);
     const productDataInDetailsModal =
       await detailsProductUIServise.getProductInDetailsModal(updatedProduct);
-    expect(productDataInDetailsModal).toEqual({
+    expect(productDataInDetailsModal, "Products table: updated product row should match edited product data").toEqual({
       name: updatedProduct.name,
       amount: updatedProduct.amount,
       price: updatedProduct.price,

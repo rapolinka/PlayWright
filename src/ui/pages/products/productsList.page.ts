@@ -1,9 +1,10 @@
 import { IProductInTable, ProductsTableHeader } from "data/types/product.types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { MANUFACTURERS } from "data/salesPortal/products/manufactures";
-import { expect } from "@playwright/test";
+import test, { expect } from "@playwright/test";
 import { ProductDetailsModal } from "./details.modal";
 import { ProductEditModal } from "./edit.modal";
+import { logStep } from "utils/report/logStep.utils";
 
 export class ProductsListPage extends SalesPortalPage {
   readonly detailsModal = new ProductDetailsModal(this.page);
@@ -55,13 +56,17 @@ export class ProductsListPage extends SalesPortalPage {
   readonly uniqueElement = this.addProductButton;
 
   //BUTTONS
+  @logStep("Click Add New Product button")
   async clickAddNewProduct() {
     await this.addProductButton.click();
   }
+
+  @logStep("Click Delete product button")
   async clickDeleteProduct(productName: string) {
     await this.deleteButton(productName).click();
   }
 
+  @logStep("Get product data by name from table in Product List page")
   async getProductData(productName: string): Promise<IProductInTable> {
     const [name, price, manufacturer, createdOn] = await this.tableRowByName(
       productName
@@ -76,6 +81,7 @@ export class ProductsListPage extends SalesPortalPage {
     };
   }
 
+  @logStep("Get all product data from table in Product List page")
   async getTableData(): Promise<IProductInTable[]> {
     const data: IProductInTable[] = [];
 
@@ -94,21 +100,28 @@ export class ProductsListPage extends SalesPortalPage {
     return data;
   }
 
+  
   async expectProductDeleted(productName: string) {
-    const row = this.tableRowByName(productName);
-    await expect(row).toHaveCount(0);
+    await test.step(`Check that ${productName} was deleted`, async () => {
+      const row = this.tableRowByName(productName);
+      await expect(row).toHaveCount(0);
+    });
   }
 
   async clickAction(
     productName: string,
     button: "edit" | "delete" | "details"
   ) {
-    if (button === "edit") await this.editButton(productName).click();
-    if (button === "delete") await this.deleteButton(productName).click();
-    if (button === "details") await this.detailsButton(productName).click();
+    await test.step(`Click ${button} on ${productName} product`, async () => {
+      if (button === "edit") await this.editButton(productName).click();
+      if (button === "delete") await this.deleteButton(productName).click();
+      if (button === "details") await this.detailsButton(productName).click();
+    });
   }
 
   async clickTableHeader(name: ProductsTableHeader) {
-    await this.tableHeaderNamed(name).click();
+    await test.step(`Click ${name} header`, async () => {
+      await this.tableHeaderNamed(name).click();
+    })
   }
 }

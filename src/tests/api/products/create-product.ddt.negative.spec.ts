@@ -5,6 +5,7 @@ import { STATUS_CODES } from "data/statusCodes";
 
 import { NEGATIVE_CREATE_CASES } from "data/salesPortal/products/createProduct.ddt.data";
 import { IProduct } from "data/types/product.types";
+import { TAGS } from "data/tags";
 
 
 
@@ -12,7 +13,10 @@ test.describe("[API][Products][Create Product with DDT - Negative Tests]", () =>
 
 
   for (const tc of NEGATIVE_CREATE_CASES) {
-    test(tc.title, async ({ loginApiService, productsApi }) => {
+    test(tc.title, 
+      {
+        tag: [TAGS.REGRESSION, TAGS.API]
+      },async ({ loginApiService, productsApi }) => {
       const token = await loginApiService.loginAsAdmin();
 
       const productData = tc.input;
@@ -24,8 +28,8 @@ test.describe("[API][Products][Create Product with DDT - Negative Tests]", () =>
         
       });
 
-      expect(createdProduct.body.IsSuccess).toBe(false);
-      expect(createdProduct.body.ErrorMessage).toEqual("Incorrect request body");
+      expect(createdProduct.body.IsSuccess, "Expected IsSuccess to be false").toBe(false);
+      expect(createdProduct.body.ErrorMessage, "Expected to receive message for ErrorMessage").toEqual("Incorrect request body");
     });
   }
 });

@@ -1,6 +1,6 @@
 import { IrequestOptions, IResponse } from "data/types/core.types";
 import { BaseApiClient } from "./baseApiClient";
-import { APIRequestContext, APIResponse } from "@playwright/test";
+import test, { APIRequestContext, APIResponse } from "@playwright/test";
 import _ from "lodash";
 
 export class RequestApi extends BaseApiClient {
@@ -9,6 +9,7 @@ export class RequestApi extends BaseApiClient {
   }
 
   private response: APIResponse | undefined;
+  private testInfo = test.info;
 
   async send<T extends object | null>(
     options: IrequestOptions
@@ -16,10 +17,13 @@ export class RequestApi extends BaseApiClient {
     try {
       const url = options.baseUrl + options.url;
       const fetchOptions = _.omit(options, ["baseUrl", "url"]);
+      await this.attachRequest(options);
       this.response = await this.requestContext.fetch(url, fetchOptions);
 
       if (this.response.status() >= 500) throw new Error();
-      return await this.transformResponse();
+      const result =  await this.transformResponse();
+      await this.attachResponse(options, result);
+      return result;
     } catch (err) {
       console.log((err as Error).message);
       throw err;
@@ -41,5 +45,32 @@ export class RequestApi extends BaseApiClient {
       headers: this.response!.headers(),
     };
   }
-}
 
+   private async attachRequest(options: IrequestOptions) {
+    await this.testInfo().attach(`Request ${options.method.toUpperCase()} ${options.url}`, {
+      body: JSON.stringify(
+        {
+          headers: options.headers,
+          body: options.data,
+        },
+        null,
+        2,
+      ),
+      contentType: "application/json",
+    });
+  }
+
+   private async attachResponse<T extends object | null>(options: IrequestOptions, response: IResponse<T>) {
+    await this.testInfo().attach(`Response ${response.status} ${options.method.toUpperCase()} ${options.url}`, {
+      body: JSON.stringify(
+        {
+          headers: response.headers,
+          body: response.body,
+        },
+        null,
+        2,
+      ),
+      contentType: "application/json",
+    });
+  }
+}

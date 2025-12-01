@@ -6,6 +6,7 @@ import { IProductResponse } from "data/types/product.types";
 import { ProductEditModal } from "ui/pages/products/edit.modal";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
 import _ from "lodash";
+import { logStep } from "utils/report/logStep.utils";
 
 export class EditProductUIServise {
   productListPage: ProductsListPage;
@@ -16,6 +17,7 @@ export class EditProductUIServise {
     this.productEditModal = new ProductEditModal(page);
   }
 
+  @logStep("Update product and come back to Products List page")
   async updateProduct(productID: string) {
     const updatedProduct = generateProductData();
     await this.productEditModal.fillForm(updatedProduct);
@@ -27,7 +29,7 @@ export class EditProductUIServise {
       this.productEditModal.clickSave.bind(this.productEditModal)
     );
     expect(response.status).toBe(STATUS_CODES.OK);
-    expect(_.omit(response.body.Product, "_id", "createdOn")).toEqual(
+    expect(_.omit(response.body.Product,"Updated product from response should match updated product", "_id", "createdOn")).toEqual(
       updatedProduct
     );
     await this.productListPage.waitForOpened();

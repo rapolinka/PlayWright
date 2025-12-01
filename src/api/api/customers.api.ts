@@ -1,7 +1,12 @@
 import { IApiClient } from "api/apiClients/types";
 import { apiConfig } from "config/apiConfig";
 import { IrequestOptions } from "data/types/core.types";
-import { ICustomer, ICustomerFromResponse, ICustomerResponse } from "data/types/customer.types";
+import {
+  ICustomer,
+  ICustomerFromResponse,
+  ICustomerResponse,
+} from "data/types/customer.types";
+import { logStep } from "utils/report/logStep.utils";
 
 export class CustomerApi {
   constructor(private apiClinet: IApiClient) {}
@@ -20,8 +25,8 @@ export class CustomerApi {
   //   return await this.apiClinet.send<ICustomerResponse>(options);
   // }
 
-
-   async delete(_id: string, token: string) {
+  @logStep("DELETE /api/customer")
+  async delete(_id: string, token: string) {
     const options: IrequestOptions = {
       baseUrl: apiConfig.baseUrl,
       url: apiConfig.endpoints.customerById(_id),

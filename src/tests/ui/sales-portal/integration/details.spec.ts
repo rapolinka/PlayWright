@@ -1,16 +1,16 @@
 import { test, expect } from "fixtures/business.fixture";
 import _ from "lodash";
-import { SALES_PORTAL_URL } from "config/env";
-import { apiConfig } from "config/apiConfig";
-import { generateProductData, generateProductResponseData } from "data/salesPortal/products/generateProductData";
-import { Mock } from "mock/mock";
+import { generateProductResponseData } from "data/salesPortal/products/generateProductData";
+import { TAGS } from "data/tags";
 
 test.describe("[Integration] [Sales Portal] [Products]", () => {
-  test("Product Details", async ({
-    loginAsAdmin,
+  test("Product Details", 
+    {
+      tag: [TAGS.REGRESSION, TAGS.UI]
+    },async ({
     productsListPage,
     mock,
-    page,
+    homeUIServise,
   }) => {
     const expectedProductResponse = generateProductResponseData();
 
@@ -65,14 +65,15 @@ test.describe("[Integration] [Sales Portal] [Products]", () => {
     //     });
     //   }
     // );
-    await loginAsAdmin();
-    await page.goto(SALES_PORTAL_URL + "products");
-    await productsListPage.waitForOpened();
+  
+    await homeUIServise.open();
+    await homeUIServise.openModuleButton("Products");
     await productsListPage.clickAction(expectedProductResponse.name, "details");
     const { detailsModal } = productsListPage;
     await detailsModal.waitForOpened();
 
     const actual = await detailsModal.getData();
-    expect(_.omit(actual,["createdOn"] )).toEqual(_.omit(expectedProductResponse, ["createdOn", "_id"]));
+    expect(_.omit(actual, ["createdOn"]), "Product data in Edit modal should match with mocked product data ").toEqual(_.omit(expectedProductResponse, ["createdOn", "_id"])
+    );
   });
 });

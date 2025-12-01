@@ -1,3 +1,4 @@
+import { logStep } from "utils/report/logStep.utils";
 import { SalesPortalPage } from "../salesPortal.page";
 
 export class CustomerListPage extends SalesPortalPage {
@@ -9,6 +10,7 @@ export class CustomerListPage extends SalesPortalPage {
     });
   readonly uniqueElement = this.title;
 
+  @logStep("Click Add New Customer button")
   async clickAddNewCustomer() {
     await this.addCustomerButton.click();
   }

@@ -2,6 +2,7 @@ import { validateResponse } from "utils/validateResponse.utils";
 import { STATUS_CODES } from "data/statusCodes";
 import { IProductFromResponse } from "data/types/product.types";
 import { test, expect } from "fixtures/api.fixture";
+import { TAGS } from "data/tags";
 
 // const { baseUrl, endpoints } = apiConfig;
 
@@ -22,7 +23,10 @@ test.describe("[API][Smoke][Get all products]", () => {
     await productsApiService.delete(token, id);
   });
 
-  test("[API][Get all products]", async ({
+  test("[API][Get all products]", 
+    {
+      tag: [TAGS.REGRESSION, TAGS.API]
+    },async ({
     loginApiService,
     productsApiService,
     productsApi,
@@ -50,9 +54,9 @@ test.describe("[API][Smoke][Get all products]", () => {
       `Created product ${createdProduct.name} must be in the list`
     ).toBeTruthy();
 
-    expect(found!.name).toBe(createdProduct.name);
-    expect(found!.manufacturer).toBe(createdProduct.manufacturer);
-    expect(found!.price).toBe(createdProduct.price);
-    expect(found!.amount).toBe(createdProduct.amount);
+    expect(found!.name, "Product name in the table should match created product name").toBe(createdProduct.name);
+    expect(found!.manufacturer, "Product manufacturer in the table should match created  product manufacturer ").toBe(createdProduct.manufacturer);
+    expect(found!.price, "Product price in the table should match created product price").toBe(createdProduct.price);
+    expect(found!.amount, "Product amount in the table should match created  product amount").toBe(createdProduct.amount);
   });
 });

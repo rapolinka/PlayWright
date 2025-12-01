@@ -8,6 +8,8 @@ import { IResponse, IResponseFileds } from "data/types/core.types";
 import { validateResponse } from "utils/validateResponse.utils";
 import { STATUS_CODES } from "data/statusCodes";
 import { CustomerApi } from "api/api/customers.api";
+import { logStep } from "utils/report/logStep.utils";
+import test from "@playwright/test";
 
 export class CustomerApiServise {
   constructor(private customerApi: CustomerApi) {}
@@ -24,10 +26,13 @@ export class CustomerApiServise {
   //   return response.body.Customer;
   // }
 
+  @logStep("Delete customer via API")
   async delete(token: string, id: string) {
     const response = await this.customerApi.delete(id, token);
-    validateResponse(response, {
-      status: STATUS_CODES.DELETED,
+    await test.step("Check response", async () => {
+      validateResponse(response, {
+        status: STATUS_CODES.DELETED,
+      });
     });
   }
 }

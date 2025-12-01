@@ -11,10 +11,10 @@ export function validateResponse<T extends IResponseFileds | null>(
     ErrorMessage?: string | null;
   }
 ) {
-  expect.soft(response.status).toBe(expected.status);
+  expect.soft(response.status, `Status code should be ${response.status}`).toBe(expected.status);
   if (expected.ErrorMessage)
-    expect.soft(response.body!.ErrorMessage).toBe(expected.ErrorMessage);
+    expect.soft(response.body!.ErrorMessage, `ErrorMessage should be ${expected.ErrorMessage}`).toBe(expected.ErrorMessage);
   if (expected.IsSuccess)
-    expect.soft(response.body!.IsSuccess).toBe(expected.IsSuccess);
+    expect.soft(response.body!.IsSuccess, `IsSuccess should be ${expected.IsSuccess}`).toBe(expected.IsSuccess);
   if (expected.schema) validateJsonSchema(response.body!, expected.schema);
 }

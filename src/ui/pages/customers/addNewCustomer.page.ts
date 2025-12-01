@@ -1,6 +1,7 @@
 import { ICustomer } from "data/types/customer.types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { th } from "@faker-js/faker";
+import { logStep } from "utils/report/logStep.utils";
 
 export class AddNewCustomerPage extends SalesPortalPage {
   readonly title = this.page.getByRole("heading", { name: "Add New Customer" });
@@ -17,6 +18,7 @@ export class AddNewCustomerPage extends SalesPortalPage {
 
   readonly uniqueElement = this.title;
 
+  @logStep("Filling form to create a new customer")
   async fillForm(customerData: Partial<ICustomer>) {
     if (customerData.email) await this.emailInput.fill(customerData.email);
     if (customerData.name) await this.nameInput.fill(customerData.name);
@@ -30,6 +32,7 @@ export class AddNewCustomerPage extends SalesPortalPage {
     if (customerData.notes) await this.notesInput.fill(customerData.notes!);
   }
 
+  @logStep("Click Save button")
   async clickSave() {
     await this.saveButton.click();
   }
