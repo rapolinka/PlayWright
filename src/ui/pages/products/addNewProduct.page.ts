@@ -1,8 +1,8 @@
-import { Locator } from "@playwright/test";
+import { logStep } from "utils/report/logStep.utils";
 import { SalesPortalPage } from "../salesPortal.page";
 import { IProduct } from "data/types/product.types";
 
-export class AddNewProduct extends SalesPortalPage {
+export class AddNewProductPage extends SalesPortalPage {
   readonly title = this.page.locator("h2.page-title-text");
   readonly nameInput = this.page.locator("#inputName");
   readonly priceInput = this.page.locator("#inputPrice");
@@ -13,6 +13,7 @@ export class AddNewProduct extends SalesPortalPage {
 
   readonly uniqueElement = this.title;
 
+  @logStep("Filling form to create a new product")
   async fillForm(productData: Partial<IProduct>) {
     if(productData.name) await this.nameInput.fill(productData.name);
     if(productData.manufacturer) await this.manufacterSelect.selectOption(productData.manufacturer);
@@ -21,6 +22,7 @@ export class AddNewProduct extends SalesPortalPage {
     if(productData.notes) await this.notesInput.fill(productData.notes!);
   }
 
+  @logStep("Click Save button")
   async clickSave(){
     await this.saveButton.click();
   }

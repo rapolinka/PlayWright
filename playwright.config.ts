@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * Read environment variables from file.
@@ -22,18 +25,50 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html'],['allure-playwright', 
+    {
+      suiteTitle: false,
+      environmentInfo: {
+        "Sales Portal UI Url": process.env.SALES_PORTAL_URL,
+        "Sales Portal API Url": process.env.SALES_PORTAL_API_URL,
+      },
+    }
+  ]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
+    screenshot: "only-on-failure",
+    video: "on-first-retry",
   },
 
   /* Configure projects for major browsers */
   projects: [
+    {
+      name: 'setup',
+      use: { ...devices['Desktop Chrome']},
+      testDir: "src/tests/ui/sales-portal",
+      testMatch: /\.setup\.ts/,
+    },
+    {
+      name: 'sales-portal-ui',
+      use: { ...devices['Desktop Chrome'], 
+      headless: true, 
+      storageState: "src/.auth/user.json"},
+      testDir: "src/tests/ui/sales-portal",
+      dependencies: ["setup"]
+    },
+    {
+      name: 'sales-portal-api',
+      use: { ...devices['Desktop Chrome'], 
+      headless: true, 
+      storageState: "src/.auth/user.json"},
+      testDir: "src/tests/api",
+      dependencies: ["setup"]
+    },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], headless: true },
@@ -76,4 +111,5 @@ export default defineConfig({
   //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+  
 });

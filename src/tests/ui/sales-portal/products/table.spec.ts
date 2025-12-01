@@ -1,55 +1,53 @@
-import test, { expect } from "@playwright/test";
-import { credentials } from "config/env";
-import { generateProductData } from "data/salesPortal/generateProductData";
+import { test, expect } from "fixtures/pages.fixture";
+import { generateProductData } from "data/salesPortal/products/generateProductData";
 import _ from "lodash";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
-import { HomePage } from "ui/pages/home.page";
-import { LoginPage } from "ui/pages/login/login.page";
-import { AddNewProduct } from "ui/pages/products/addNewProduct.page";
-import { ProductsListPage } from "ui/pages/products/productsList.page";
+import { TAGS } from "data/tags";
 
-test.describe("[Sales Portal][Products]", async () => {
-  test.beforeEach("Login with valid credentials", async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.open();
-    await loginPage.waitForLogin();
-    await loginPage.fillCredentials(credentials);
-    await loginPage.clickLogin();
-  });
+test.describe("[E2E][Sales Portal][Products]", async () => {
+  // test.beforeEach("Login with valid credentials", async ({ page, loginPage }) => {
+  //   await loginPage.open();
+  //   await loginPage.waitForElementToBeDisplyed();
+  //   await loginPage.fillCredentials(credentials);
+  //   await loginPage.clickLogin();
+  // });
 
-  test("Newly added product is shown at the top of Products List with correct data", async ({
-    page,
-  }) => {
-    const homePage = new HomePage(page);
-    const productsListPage = new ProductsListPage(page);
-    const addNewProduct = new AddNewProduct(page);
+  test(
+    "Newly added product is shown at the top of Products List with correct data",
+    {
+      tag: [TAGS.REGRESSION, TAGS.UI],
+    },
+    async ({ productsListPage, addNewProductPage, homeUIServise }) => {
+      await homeUIServise.open();
+      await homeUIServise.openModuleButton("Products");
+      await productsListPage.clickAddNewProduct();
+      await addNewProductPage.waitForOpened();
+      const productData = generateProductData();
+      await addNewProductPage.fillForm(productData);
+      await addNewProductPage.clickSave();
+      await addNewProductPage.waitForOpened();
 
-    await homePage.waitForOpened();
-    await homePage.clickOnViewModel("Products");
-    await productsListPage.waitForOpened();
-    await productsListPage.clickAddNewProduct();
-    await addNewProduct.waitForOpened();
-    const productData = generateProductData();
-    await addNewProduct.fillForm(productData);
-    await addNewProduct.clickSave();
-    await addNewProduct.waitForOpened();
+      await productsListPage.waitForNotification(NOTIFICATIONS.PRODUCT_CREATED);
 
-    await expect(productsListPage.toastMessage).toContainText(
-      NOTIFICATIONS.PRODUCT_CREATED
-    );
-    await expect(
-      productsListPage.tableRowByName(productData.name)
-    ).toBeVisible();
+      await expect(
+        productsListPage.tableRowByName(productData.name),
+        "Products table: newly created product should be visible after creation"
+      ).toBeVisible();
 
-    await expect(
-      productsListPage.fisrtTableRowByName(productData.name)
-    ).toBeVisible();
+      await expect(
+        productsListPage.fisrtTableRowByName(productData.name),
+        "Products table: newly created product should appear at the top of the list"
+      ).toBeVisible();
 
-    const productFromTable = await productsListPage.getProductData(
-      productData.name
-    );
-    const expectedProduct = _.omit(productData, ["notes", "amount"]);
-    const actualProduct = _.omit(productFromTable, ["createdOn"]);
-    expect(actualProduct).toEqual(expectedProduct);
-  });
+      const productFromTable = await productsListPage.getProductData(
+        productData.name
+      );
+      const expectedProduct = _.omit(productData, ["notes", "amount"]);
+      const actualProduct = _.omit(productFromTable, ["createdOn"]);
+      expect(
+        actualProduct,
+        "Products table: displayed product data should match the created product"
+      ).toEqual(expectedProduct);
+    }
+  );
 });

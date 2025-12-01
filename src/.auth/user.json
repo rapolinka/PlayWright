@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": "Authorization",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDIyNjAzMDhmOWNhNjQ4YjJmNGY2NiIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc2NDU4MzY1NiwiZXhwIjoxNzY0NjcwMDU2fQ.FkN75ii2a96SLlF2g7ZL71-VSNr1POuj-_MerWNYNl8",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,37 +1,33 @@
-import test, { expect } from "@playwright/test";
-import { credentials } from "config/env";
-import { generateProductData } from "data/salesPortal/generateProductData";
+import { test, expect } from "fixtures/business.fixture";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
-import { HomePage } from "ui/pages/home.page";
-import { LoginPage } from "ui/pages/login/login.page";
-import { AddNewProduct } from "ui/pages/products/addNewProduct.page";
-import { ProductsListPage } from "ui/pages/products/productsList.page";
+import { TAGS } from "data/tags";
 
+test.describe("[E2E][Sales Portal][Products]", async () => {
+  let id = "";
+  let token = "";
 
-test.describe("[Sales Portal][Products]", async () => {
-  test("Add new product", async ({ page }) => {
-    const homePage = new HomePage(page);
-    const productsListPage = new ProductsListPage(page);
-    const addNewProduct = new AddNewProduct(page);
-    const loginPage = new LoginPage(page);
-
-    await loginPage.open();
-    await loginPage.waitForLogin();
-    await loginPage.fillCredentials(credentials);
-    await loginPage.clickLogin();
-
-    await homePage.waitForOpened();
-    await homePage.clickOnViewModel("Products");
-    await productsListPage.waitForOpened();
-    await productsListPage.clickAddNewProduct();
-    await addNewProduct.waitForOpened();
-    const productData = generateProductData()
-    await addNewProduct.fillForm(productData);
-    await addNewProduct.clickSave();
-    await addNewProduct.waitForOpened();
-
-  
-    await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
-    await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
+  test.afterEach(async ({ productsApiService }) => {
+    if (id) await productsApiService.delete(token, id);
+    id = "";
   });
+
+  test(
+    "Add new products with servises",
+    {
+      tag: [TAGS.REGRESSION, TAGS.SMOKE, TAGS.UI],
+    },
+    async ({ addNewProductUIServise, productsListPage }) => {
+
+      await addNewProductUIServise.open();
+      const createdProduct = await addNewProductUIServise.create();
+      id = createdProduct._id;
+      token = await productsListPage.getAuthToken();
+
+      await expect(productsListPage.toastMessage, "Notification for a created product should contain corresponding text").toContainText(
+        NOTIFICATIONS.PRODUCT_CREATED
+      );
+      await expect(
+        productsListPage.tableRowByName(createdProduct.name),  "Created product name should present in product table").toBeVisible();
+    }
+  );
 });
