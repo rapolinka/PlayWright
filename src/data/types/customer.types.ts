@@ -1,6 +1,7 @@
 import { ICreatedOn } from "./product.types";
-import { ID, IResponseFileds } from "./core.types";
+import { ICustomerID, ID, IResponseFileds } from "./core.types";
 import { COUNTRY } from "data/salesPortal/customers/counties";
+import { STATUS_CODES } from "data/statusCodes";
 
 export interface ICustomer {
   email: string;
@@ -17,8 +18,14 @@ export interface ICustomer {
 export interface ICustomerFromResponse
   extends Required<ICustomer>,
     ICreatedOn,
-    ID {}
+    ICustomerID {}
 
 export interface ICustomerResponse extends IResponseFileds {
   Customer: ICustomerFromResponse;
+}
+
+
+export interface ICreateCustomerCases {
+  title: string;
+  customerData: ICustomer;
 }

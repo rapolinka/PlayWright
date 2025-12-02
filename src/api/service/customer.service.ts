@@ -14,17 +14,17 @@ import test from "@playwright/test";
 export class CustomerApiServise {
   constructor(private customerApi: CustomerApi) {}
 
-  // async create(token: string, productData?: ICustomer) {
-  //   const data = generateCustomerData(productData);
-  //   const response = await this.customerApi.create(token, data);
-  //   validateResponse(response, {
-  //     status: STATUS_CODES.CREATED,
-  //     IsSuccess: true,
-  //     ErrorMessage: null,
-  //   });
+  async create(token: string, customerData?: ICustomer) {
+    const data = generateCustomerData(customerData);
+    const response = await this.customerApi.create(token, data);
+    validateResponse(response, {
+      status: STATUS_CODES.CREATED,
+      IsSuccess: true,
+      ErrorMessage: null,
+    });
 
-  //   return response.body.Customer;
-  // }
+    return response.body.Customer;
+  }
 
   @logStep("Delete customer via API")
   async delete(token: string, id: string) {

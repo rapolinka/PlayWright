@@ -2,6 +2,14 @@ export interface ID {
   _id: string;
 }
 
+export interface IOrderID {
+    _id: string;
+}
+
+export interface ICustomerID {
+    _id: string;
+}
+
 export interface IResponseFileds {
   IsSuccess: boolean;
   ErrorMessage: null | string;
